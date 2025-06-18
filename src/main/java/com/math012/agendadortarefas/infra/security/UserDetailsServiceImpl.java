@@ -1,36 +1,23 @@
-package com.math012.usuario.infra.security;
+package com.math012.agendadortarefas.infra.security;
 
-
-
-import com.math012.usuario.infra.entity.Usuario;
-import com.math012.usuario.infra.repository.UsuarioRepository;
+import com.math012.agendadortarefas.business.UsuarioDTO;
+import com.math012.agendadortarefas.infra.client.UsuarioClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl {
 
-    // Repositório para acessar dados de usuário no banco de dados
+    @Autowired
+    private UsuarioClient usuarioClient;
 
-    private final UsuarioRepository usuarioRepository;
-
-    public UserDetailsServiceImpl(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
-
-    // Implementação do método para carregar detalhes do usuário pelo e-mail
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Busca o usuário no banco de dados pelo e-mail
-        Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
-
-        // Cria e retorna um objeto UserDetails com base no usuário encontrado
-        return org.springframework.security.core.userdetails.User
-                .withUsername(usuario.getEmail()) // Define o nome de usuário como o e-mail
-                .password(usuario.getSenha()) // Define a senha do usuário
-                .build(); // Constrói o objeto UserDetails
+    public UserDetails carregaDadosDeUsuario(String email, String token){
+        UsuarioDTO usuarioDTO = usuarioClient.buscarUsuarioPorEmail(email, token);
+        return User
+                .withUsername(usuarioDTO.getEmail())
+                .password(usuarioDTO.getSenha())
+                .build();
     }
 }
