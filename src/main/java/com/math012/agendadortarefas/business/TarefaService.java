@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -27,4 +28,14 @@ public class TarefaService {
         return tarefaConverter.paraTarefaDTO(tarefaRepository.save(
                 tarefaConverter.paraTarefaEntity(tarefaDTO)));
     }
+
+    public List<TarefaDTO> buscarTarefaAgendadaPorPeriado(LocalDateTime dataInicial, LocalDateTime dataFinal){
+        return tarefaConverter.paraListaTarefaDTO(tarefaRepository.findByDataEventoBetween(dataInicial,dataFinal));
+    }
+
+    public List<TarefaDTO> buscarTarefaPorEmail(String token){
+        String email = jwtUtil.extrairEmailToken(token.substring(7));
+        return tarefaConverter.paraListaTarefaDTO(tarefaRepository.findByEmailUsuario(email));
+    }
+
 }
