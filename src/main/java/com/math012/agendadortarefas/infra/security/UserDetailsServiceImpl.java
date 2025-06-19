@@ -1,6 +1,6 @@
 package com.math012.agendadortarefas.infra.security;
 
-import com.math012.agendadortarefas.business.UsuarioDTO;
+import com.math012.agendadortarefas.business.dto.UsuarioDTO;
 import com.math012.agendadortarefas.infra.client.UsuarioClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
