@@ -13,6 +13,7 @@ public interface TarefaConverter {
     TarefaDTO paraTarefaDTO(TarefaEntity tarefaEntity);
     List<TarefaDTO> paraListaTarefaDTO(List<TarefaEntity> tarefa);
     List<TarefaEntity> paraListaTarefaEntity(List<TarefaDTO> tarefaDTO);
+
 }
 
 
