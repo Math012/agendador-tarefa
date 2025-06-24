@@ -42,7 +42,7 @@ public class TarefaController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping
+    @PutMapping("/status")
     public ResponseEntity<TarefaDTO> alteraStatusNotificacao(@RequestParam("status")StatusTarefa statusTarefa,
                                                              @RequestParam("idTarefa")String id){
         return ResponseEntity.ok(tarefaService.alteraStatusTarefa(statusTarefa,id));
